@@ -22,33 +22,37 @@
 <!-- Add your site or application content here -->
 <h1>Hello world!</h1>
 
-<img id="walkingSnake" class="walking-snake" src="assets/img/python_small_logo.svg" alt="snake"/>
+<section id="codeContainer">
 
-<pre><code class="language-python">
-# ####### 1. STL imports
-import datetime
-import importlib
-import math
-import os
-import platform
-import random
-import sys
-from copy import copy, deepcopy
-from pprint import pprint
+  <div id="walkingSnake" class="walking-snake"></div>
 
-# ####### 2. 3rd-party packages
-from colorama import Fore, Back, Style
-import requests
+  <pre><code class="language-python">
+  # ####### 1. STL imports
+  import datetime
+  import importlib
+  import math
+  import os
+  import platform
+  import random
+  import sys
+  from copy import copy, deepcopy
+  from pprint import pprint
 
-# fyi: Such import style will cause issues with built-in funcs - if names match, they will be overridden.
-# from os import *
+  # ####### 2. 3rd-party packages
+  from colorama import Fore, Back, Style
+  import requests
 
-# ####### 3. my own packages
-# import < model_name > from < models_package >
+  # fyi: Such import style will cause issues with built-in funcs - if names match, they will be overridden.
+  # from os import *
+
+  # ####### 3. my own packages
+  # import < model_name > from < models_package >
 
 
-GRAVITATIONAL_CONSTANT: float = 9.81
-</code></pre>
+  GRAVITATIONAL_CONSTANT: float = 9.81
+  </code></pre>
+
+</section>
 
 
 <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>

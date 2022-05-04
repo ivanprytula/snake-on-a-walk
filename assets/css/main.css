@@ -262,8 +262,20 @@ textarea {
 }
 
 /* Custom styles */
-
-.walking-snake {
-  width: 2%;
-  position: relative;
+#codeContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 7px;
 }
+
+#walkingSnake {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  background: url("/assets/img/python_small_logo.svg") no-repeat 0 0;
+  background-size: 100%;
+}
+

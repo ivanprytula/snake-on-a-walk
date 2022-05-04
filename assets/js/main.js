@@ -1,47 +1,59 @@
 // Walking snake behavior
 
+const STEP_SIZE = 10;
+
 //init object globally
 let objImage = null;
 
-function init() {
-  objImage = document.getElementById("walkingSnake");
-  objImage.style.position = "relative";
+
+const init = () => {
+  //getting the image node
+  objImage = document.querySelector("#walkingSnake");
   objImage.style.left = "0px";
   objImage.style.top = "0px";
-}
+};
 
-function getKeyAndMove(e) {
-  const key_code = e.which || e.keyCode;
-  switch (key_code) {
-    case 37: //left arrow key
+
+const moveUp = () => {
+  objImage.style.top = parseInt(objImage.style.top) - STEP_SIZE + "px";
+  objImage.className = ""
+  objImage.className = "walking-snake ld ld-float"
+};
+
+const moveDown = () => {
+  objImage.style.top = parseInt(objImage.style.top) + STEP_SIZE + "px";
+  objImage.className = ""
+  objImage.className = "walking-snake ld ld-pulse"
+};
+
+const moveLeft = () => {
+  objImage.style.left = parseInt(objImage.style.left) - STEP_SIZE + "px";
+  objImage.className = ""
+  objImage.className = "walking-snake ld ld-jelly"
+};
+
+const moveRight = () => {
+  objImage.style.left = parseInt(objImage.style.left) + STEP_SIZE + "px";
+  objImage.className = ""
+  objImage.className = "walking-snake ld ld-jingle"
+};
+
+
+document.body.onkeydown = (e) => {
+  switch (e.key) {
+    case 'ArrowLeft':
       moveLeft();
       break;
-    case 38: //Up arrow key
+    case 'ArrowUp':
       moveUp();
       break;
-    case 39: //right arrow key
+    case 'ArrowRight':
       moveRight();
       break;
-    case 40: //down arrow key
+    case 'ArrowDown':
       moveDown();
       break;
   }
-}
-
-function moveLeft() {
-  objImage.style.left = parseInt(objImage.style.left) - 5 + "px";
-}
-
-function moveUp() {
-  objImage.style.top = parseInt(objImage.style.top) - 5 + "px";
-}
-
-function moveRight() {
-  objImage.style.left = parseInt(objImage.style.left) + 5 + "px";
-}
-
-function moveDown() {
-  objImage.style.top = parseInt(objImage.style.top) + 5 + "px";
 }
 
 window.onload = init;

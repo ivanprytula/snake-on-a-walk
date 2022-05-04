@@ -3,32 +3,27 @@
 const walkingSnake = document.querySelector("#walkingSnake");
 let stepSize;
 
+const INITIAL_SNAKE_STATE = "walking-snake ld ld-breath";
 
 walkingSnake.style.left = "0px";
 walkingSnake.style.top = "0px";
+walkingSnake.className = INITIAL_SNAKE_STATE;
+
 
 const moveUp = () => {
   walkingSnake.style.top = parseInt(walkingSnake.style.top) - stepSize + "px";
-  walkingSnake.className = ""
-  walkingSnake.className = "walking-snake ld ld-float"
 };
 
 const moveDown = () => {
   walkingSnake.style.top = parseInt(walkingSnake.style.top) + stepSize + "px";
-  walkingSnake.className = ""
-  walkingSnake.className = "walking-snake ld ld-pulse"
 };
 
 const moveLeft = () => {
   walkingSnake.style.left = parseInt(walkingSnake.style.left) - stepSize + "px";
-  walkingSnake.className = ""
-  walkingSnake.className = "walking-snake ld ld-jelly"
 };
 
 const moveRight = () => {
   walkingSnake.style.left = parseInt(walkingSnake.style.left) + stepSize + "px";
-  walkingSnake.className = ""
-  walkingSnake.className = "walking-snake ld ld-jingle"
 };
 
 const inspectToken = (token) => {
@@ -62,6 +57,14 @@ document.body.onkeydown = (e) => {
 document.body.addEventListener('click', (e) => {
   if (walkingSnake.contains(e.target)) {
     console.log('clicked inside');
+    walkingSnake.className = "";
+    walkingSnake.className = "walking-snake ld ld-spin-fast";
+
+    setTimeout(function () {
+      walkingSnake.className = INITIAL_SNAKE_STATE;
+    }, 1000);
+
+
   } else {
     let selection = window.getSelection();
     selection.modify('move', 'backward', 'word');

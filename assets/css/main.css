@@ -262,12 +262,12 @@ textarea {
 }
 
 /* Custom styles */
-#codeContainer {
+#walkingContainer {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /*overflow: hidden;*/
   border-radius: 7px;
 }
 

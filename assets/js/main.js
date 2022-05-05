@@ -1,7 +1,11 @@
 // Walking snake behavior
 
 const walkingSnake = document.querySelector("#walkingSnake");
-let stepSize;
+const walkingContainer = document.querySelector("#walkingContainer");
+
+let walkingContainerRect = walkingContainer.getBoundingClientRect();
+
+let stepSize = 0;
 
 const INITIAL_SNAKE_STATE = "walking-snake ld ld-breath";
 
@@ -11,24 +15,67 @@ walkingSnake.className = INITIAL_SNAKE_STATE;
 
 
 const moveUp = () => {
+
+  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  if (walkingSnakeRect.y <= walkingContainerRect.y) {
+    return;
+  }
+
   walkingSnake.style.top = parseInt(walkingSnake.style.top) - stepSize + "px";
 };
 
 const moveDown = () => {
+
+  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  if (walkingSnakeRect.bottom + walkingSnakeRect.height >= walkingContainerRect.bottom) {
+    return;
+  }
+
   walkingSnake.style.top = parseInt(walkingSnake.style.top) + stepSize + "px";
 };
 
 const moveLeft = () => {
+
+  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  if (walkingSnakeRect.x <= walkingContainerRect.x + walkingSnakeRect.width) {
+    return;
+  }
+
   walkingSnake.style.left = parseInt(walkingSnake.style.left) - stepSize + "px";
 };
 
 const moveRight = () => {
+
+  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  if (walkingSnakeRect.x >= walkingContainerRect.right - (walkingSnakeRect.width * 2)) {
+    return;
+  }
+
   walkingSnake.style.left = parseInt(walkingSnake.style.left) + stepSize + "px";
 };
 
-const inspectToken = (token) => {
+const showTitle = (token) => {
   console.log('token:: >> ', token);
-}
+
+  switch (token) {
+    case 'from':
+      walkingSnake.setAttribute('title', 'hello world');
+      break;
+    case 'import':
+      walkingSnake.setAttribute('title', 'import');
+      break;
+    case 'def':
+      walkingSnake.setAttribute('title', 'define');
+      break;
+    default:
+      console.log('sdsd');
+  }
+
+  if (token === 'from') {
+    // pass
+  }
+
+};
 
 
 document.body.onkeydown = (e) => {
@@ -38,17 +85,27 @@ document.body.onkeydown = (e) => {
     stepSize = 10;
   }
 
+  console.log(e.key);
+
   switch (e.key) {
     case 'ArrowLeft':
+    case 'A':
+    case 'a':
       moveLeft();
       break;
     case 'ArrowUp':
+    case 'W':
+    case 'w':
       moveUp();
       break;
     case 'ArrowRight':
+    case 'D':
+    case 'd':
       moveRight();
       break;
     case 'ArrowDown':
+    case 'S':
+    case 's':
       moveDown();
       break;
   }
@@ -70,6 +127,6 @@ document.body.addEventListener('click', (e) => {
     selection.modify('move', 'backward', 'word');
     selection.modify('extend', 'forward', 'word');
 
-    inspectToken(selection.toString());
+    showTitle(selection.toString());
   }
 });

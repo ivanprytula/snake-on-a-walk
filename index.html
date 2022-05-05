@@ -22,13 +22,14 @@
 
 <!-- Add your site or application content here -->
 <h1>Hello world!</h1>
+<h2> Use WASD or arrow keys to move snake around.</h2>
 
-<section id="codeContainer">
+<section id="walkingContainer">
 
-  <img id="walkingSnake" class="walking-snake" src="assets/img/python_small_logo.svg" alt="walking-snake">
+  <img id="walkingSnake" class="walking-snake" src="assets/img/python_small_logo.svg" alt="walking-snake" title="sdsadasd">
 
   <pre><code class="language-python">
-  # ####### 1. STL imports
+  # ####### 1. Standard Library imports
   import datetime
   import importlib
   import math
@@ -46,11 +47,17 @@
   # fyi: Such import style will cause issues with built-in funcs - if names match, they will be overridden.
   # from os import *
 
-  # ####### 3. my own packages
+  # ####### 3. your own packages
   # import < model_name > from < models_package >
 
-
   GRAVITATIONAL_CONSTANT: float = 9.81
+
+  # Write a full sentence in one-line comment with a period in the end.
+  multiline_comment = '''
+  Not a Module docstring \t but comment assigned to variable.\n This will be a second line if printed.
+
+  '''
+
   </code></pre>
 
 </section>

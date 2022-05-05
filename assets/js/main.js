@@ -3,14 +3,23 @@ const INITIAL_SNAKE_STATE = "walking-snake ld ld-breath";
 
 const walkingSnake = document.querySelector("#walkingSnake");
 const walkingContainer = document.querySelector("#walkingContainer");
-const fillableTooltip = document.querySelector('#tooltip');
 const codeArea = document.querySelector('code.language-python');
 
+// Select the node that will be observed for mutations
+const fillableTooltip = document.querySelector('#tooltip');
+
+// Options for the observer (which mutations to observe)
+const config = {
+  childList: true,
+};
+
+let walkingSnakeRect = {x: 0, y: 0};
 let walkingContainerRect = walkingContainer.getBoundingClientRect();
 let stepSize = 0;
 let tooltipContent = {
-  from: 'aaa',
   import: 'Try `import __hello__` in Python interpreter',
+  from: 'from',
+  as: 'as',
   def: 'ccc',
 };
 
@@ -20,8 +29,10 @@ walkingSnake.className = INITIAL_SNAKE_STATE;
 
 
 const moveUp = () => {
+  // Hide the tooltip
+  fillableTooltip.removeAttribute('data-show');
 
-  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  walkingSnakeRect = walkingSnake.getBoundingClientRect();
   if (walkingSnakeRect.y <= walkingContainerRect.y) {
     return;
   }
@@ -30,8 +41,10 @@ const moveUp = () => {
 };
 
 const moveDown = () => {
+  // Hide the tooltip
+  fillableTooltip.removeAttribute('data-show');
 
-  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  walkingSnakeRect = walkingSnake.getBoundingClientRect();
   if (walkingSnakeRect.bottom + walkingSnakeRect.height >= walkingContainerRect.bottom) {
     return;
   }
@@ -40,8 +53,10 @@ const moveDown = () => {
 };
 
 const moveLeft = () => {
+  // Hide the tooltip
+  fillableTooltip.removeAttribute('data-show');
 
-  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  walkingSnakeRect = walkingSnake.getBoundingClientRect();
   if (walkingSnakeRect.x <= walkingContainerRect.x + walkingSnakeRect.width) {
     return;
   }
@@ -50,8 +65,10 @@ const moveLeft = () => {
 };
 
 const moveRight = () => {
+  // Hide the tooltip
+  fillableTooltip.removeAttribute('data-show');
 
-  const walkingSnakeRect = walkingSnake.getBoundingClientRect();
+  walkingSnakeRect = walkingSnake.getBoundingClientRect();
   if (walkingSnakeRect.x >= walkingContainerRect.right - (walkingSnakeRect.width * 2)) {
     return;
   }
@@ -122,5 +139,27 @@ document.body.addEventListener('click', (e) => {
     spinSnake();
   } else if (codeArea.contains(e.target)) {
     dispatchTooltipContent();
+  } else {
+    // Hide the tooltip
+    fillableTooltip.removeAttribute('data-show');
   }
 });
+
+// Callback function to execute when mutations are observed
+const callback = function (mutationsList) {
+
+  // Use traditional 'for loops' for IE 11
+  for (const mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+
+      // Make the tooltip visible
+      fillableTooltip.setAttribute('data-show', '');
+    }
+  }
+};
+
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(fillableTooltip, config);

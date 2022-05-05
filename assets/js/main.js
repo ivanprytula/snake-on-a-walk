@@ -1,13 +1,18 @@
 // Walking snake behavior
+const INITIAL_SNAKE_STATE = "walking-snake ld ld-breath";
 
 const walkingSnake = document.querySelector("#walkingSnake");
 const walkingContainer = document.querySelector("#walkingContainer");
+const fillableTooltip = document.querySelector('#tooltip');
+const codeArea = document.querySelector('code.language-python');
 
 let walkingContainerRect = walkingContainer.getBoundingClientRect();
-
 let stepSize = 0;
-
-const INITIAL_SNAKE_STATE = "walking-snake ld ld-breath";
+let tooltipContent = {
+  from: 'aaa',
+  import: 'Try `import __hello__` in Python interpreter',
+  def: 'ccc',
+};
 
 walkingSnake.style.left = "0px";
 walkingSnake.style.top = "0px";
@@ -54,27 +59,21 @@ const moveRight = () => {
   walkingSnake.style.left = parseInt(walkingSnake.style.left) + stepSize + "px";
 };
 
-const showTitle = (token) => {
-  console.log('token:: >> ', token);
+const dispatchTooltipContent = () => {
+  let selection = window.getSelection();
+  let tooltipText = '';
 
-  switch (token) {
-    case 'from':
-      walkingSnake.setAttribute('title', 'hello world');
-      break;
-    case 'import':
-      walkingSnake.setAttribute('title', 'import');
-      break;
-    case 'def':
-      walkingSnake.setAttribute('title', 'define');
-      break;
-    default:
-      console.log('sdsd');
+  selection.modify('move', 'backward', 'word');
+  selection.modify('extend', 'forward', 'word');
+
+  tooltipText = tooltipContent[selection.toString()];
+
+  if (tooltipText === undefined) {
+    fillableTooltip.innerHTML = 'Look more ;))';
+    return;
   }
 
-  if (token === 'from') {
-    // pass
-  }
-
+  fillableTooltip.innerHTML = tooltipText;
 };
 
 
@@ -84,8 +83,6 @@ document.body.onkeydown = (e) => {
   } else {
     stepSize = 10;
   }
-
-  console.log(e.key);
 
   switch (e.key) {
     case 'ArrowLeft':
@@ -111,22 +108,19 @@ document.body.onkeydown = (e) => {
   }
 }
 
+const spinSnake = () => {
+  walkingSnake.className = "";
+  walkingSnake.className = "walking-snake ld ld-spin-fast";
+
+  setTimeout(function () {
+    walkingSnake.className = INITIAL_SNAKE_STATE;
+  }, 1000);
+};
+
 document.body.addEventListener('click', (e) => {
   if (walkingSnake.contains(e.target)) {
-    console.log('clicked inside');
-    walkingSnake.className = "";
-    walkingSnake.className = "walking-snake ld ld-spin-fast";
-
-    setTimeout(function () {
-      walkingSnake.className = INITIAL_SNAKE_STATE;
-    }, 1000);
-
-
-  } else {
-    let selection = window.getSelection();
-    selection.modify('move', 'backward', 'word');
-    selection.modify('extend', 'forward', 'word');
-
-    showTitle(selection.toString());
+    spinSnake();
+  } else if (codeArea.contains(e.target)) {
+    dispatchTooltipContent();
   }
 });

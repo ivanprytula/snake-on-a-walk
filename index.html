@@ -16,17 +16,25 @@
         integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.css">
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+
 </head>
 
 <body>
 
-<!-- Add your site or application content here -->
 <h1>Hello world!</h1>
-<h2> Use WASD or arrow keys to move snake around.</h2>
+<h3> Use WASD / arrow keys to move snake around.</h3>
+<p>Click at any word/symbol, hover over snake and check out info in tooltip :)</p>
 
 <section id="walkingContainer">
-
-  <img id="walkingSnake" class="walking-snake" src="assets/img/python_small_logo.svg" alt="walking-snake" title="sdsadasd">
+  <img id="walkingSnake"
+       aria-describedby="tooltip"
+       class="walking-snake"
+       src="assets/img/python_small_logo.svg"
+       alt="walking-snake">
+  <div id="tooltip" role="tooltip">foo spam eggs
+    <div id="arrow" data-popper-arrow></div>
+  </div>
 
   <pre><code class="language-python">
   # ####### 1. Standard Library imports
@@ -62,6 +70,65 @@
 
 </section>
 
+<script>
+  const snakeWithTooltip = document.querySelector('#walkingSnake');
+  const emptyTooltip = document.querySelector('#tooltip');
+
+  const popperInstance = Popper.createPopper(snakeWithTooltip, emptyTooltip, {
+    placement: 'top',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 8],
+        },
+      },
+    ],
+  });
+
+  function show() {
+    // Make the tooltip visible
+    emptyTooltip.setAttribute('data-show', '');
+
+    // Enable the event listeners
+    popperInstance.setOptions((options) => ({
+      ...options,
+      modifiers: [
+        ...options.modifiers,
+        {name: 'eventListeners', enabled: true},
+      ],
+    }));
+
+    // Update its position
+    popperInstance.update();
+  }
+
+  function hide() {
+    // Hide the tooltip
+    emptyTooltip.removeAttribute('data-show');
+
+    // Disable the event listeners
+    popperInstance.setOptions((options) => ({
+      ...options,
+      modifiers: [
+        ...options.modifiers,
+        {name: 'eventListeners', enabled: false},
+      ],
+    }));
+  }
+
+  const showEvents = ['mouseenter', 'focus'];
+  const hideEvents = ['mouseleave', 'blur'];
+
+  showEvents.forEach((event) => {
+    snakeWithTooltip.addEventListener(event, show);
+  });
+
+  hideEvents.forEach((event) => {
+    snakeWithTooltip.addEventListener(event, hide);
+  });
+</script>
+
 
 <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
 <script src="assets/js/main.js"></script>
@@ -71,6 +138,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"
         integrity="sha512-fTl/qcO1VgvKtOMApX2PdZzkziyr2stM65GYPLGuYMnuMm1z2JLJG6XVU7C/mR+E7xBUqCivykuhlzfqxXBXbg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </body>
 
 </html>
